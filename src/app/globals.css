@@ -1,0 +1,514 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 10% 97%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 220 70% 40%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 220 70% 40%;
+    --radius: 0.5rem;
+    scroll-behavior: smooth;
+  }
+
+  .dark {
+    --background: 240 10% 4%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 6%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 6%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 220 70% 50%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 220 70% 50%;
+  }
+}
+
+/* Fix for the horizontal overflow issue */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    will-change: auto;
+  }
+
+  body, html {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    padding-top: 80px; /* Space for the fixed header */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    scrollbar-gutter: stable;
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary/70 ring-offset-2 ring-offset-background;
+  }
+
+  /* Enhance focus styles for keyboard navigation */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  /* Improve typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight;
+  }
+
+  /* Force all content to remain inside viewport */
+  #root, main, .layout-container {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  /* Glass header effect */
+  .glass-header {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+      0 4px 20px rgba(0, 0, 0, 0.05),
+      0 2px 6px rgba(0, 0, 0, 0.08),
+      0 0 1px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 50;
+  }
+
+  .glass-header:not(.bg-white) {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .dark .glass-header {
+    background: rgba(10, 10, 15, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow:
+      0 4px 20px rgba(0, 0, 0, 0.2),
+      0 2px 6px rgba(0, 0, 0, 0.15),
+      0 0 1px rgba(255, 255, 255, 0.05);
+  }
+
+  .dark .glass-header:not(.bg-white) {
+    background: rgba(10, 10, 15, 0.2);
+  }
+
+  /* Mobile menu overlay */
+  .mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999999;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .dark .mobile-menu-overlay {
+    background: rgba(15, 15, 20, 0.95);
+  }
+
+  .hero-gradient {
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(80, 98, 177, 0.15) 0%,
+      rgba(0, 0, 0, 0) 70%
+    );
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+  }
+
+  .dark .hero-gradient {
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(80, 98, 177, 0.3) 0%,
+      rgba(0, 0, 0, 0) 70%
+    );
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+  }
+
+  .section-title {
+    @apply text-4xl md:text-5xl font-bold mb-6;
+  }
+
+  .container-custom {
+    @apply container mx-auto px-4 md:px-8 max-w-7xl;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  .card-glow {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .card-glow::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(
+      45deg,
+      rgba(80, 98, 177, 0.3) 0%,
+      rgba(124, 95, 87, 0.3) 50%,
+      rgba(199, 91, 50, 0.3) 100%
+    );
+    filter: blur(20px);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .card-glow:hover::before {
+    opacity: 1;
+  }
+
+  .text-gradient {
+    background: linear-gradient(90deg, #5062b1, #c75b32);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Animated background */
+  .animated-bg {
+    position: relative;
+    overflow: visible !important;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .animated-bg::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    bottom: -50%;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(80, 98, 177, 0.1) 0%,
+      rgba(0, 0, 0, 0) 70%
+    );
+    z-index: -1;
+    animation: pulse 15s ease-in-out infinite alternate;
+    pointer-events: none;
+    max-width: 200%;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(1.2);
+      opacity: 0.8;
+    }
+  }
+
+  /* Enhanced button and link effects */
+  .btn-glow {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .btn-glow::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      45deg,
+      rgba(80, 98, 177, 0.5) 0%,
+      rgba(199, 91, 50, 0.5) 100%
+    );
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .btn-glow:hover::after {
+    opacity: 1;
+  }
+
+  /* Dark mode specific styles */
+  .dark .card {
+    background-color: hsl(var(--card));
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  .dark .border {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Animated underline for links */
+  .animated-underline {
+    position: relative;
+  }
+
+  .animated-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      #5062b1,
+      #c75b32
+    );
+    transition: width 0.3s ease;
+  }
+
+  .animated-underline:hover::after {
+    width: 100%;
+  }
+
+  /* Particle background */
+  .particles-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    pointer-events: none;
+  }
+}
+
+/* Preloading Optimizations */
+.preload-fade-in {
+  animation: preloadFadeIn 0.5s ease-in;
+}
+
+@keyframes preloadFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Optimize for perceived performance - using a more compatible approach */
+.main-content {
+  will-change: contents;
+  contain: content;
+  width: 100%;
+  max-width: 100%;
+  overflow: visible !important;
+}
+
+/* Add smooth transition for link navigation with prefetch */
+a[prefetch], /* For compatibility */
+a[prefetch="true"] {
+  transition: color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+/* Reduce layout shifts */
+:root {
+  scroll-behavior: smooth;
+}
+
+/* Extra prevention for horizontal scrolling */
+section, div, header, footer, nav {
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+/* Fix for double scrollbar issues */
+section {
+  overflow: visible !important;
+  position: relative;
+  z-index: 1;
+}
+
+html, body {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  height: auto !important;
+  min-height: 100vh;
+}
+
+html {
+  overflow-y: scroll !important; /* Use single scrollbar for the page */
+  /* Enable smooth scrolling for all elements */
+  scroll-behavior: smooth;
+  /* Add padding to account for fixed header */
+  scroll-padding-top: 5rem;
+  /* Prevent scrollbar from shifting layout */
+  scrollbar-gutter: stable;
+}
+
+/* Force single scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+/* Ensure containers don't create separate scrollbars */
+.container-custom {
+  overflow: visible !important;
+}
+
+/* Improved scroll behavior */
+:root {
+  --scroll-padding: 5rem;
+  --color-skeleton: #f0f0f0;
+}
+
+html {
+  /* Enable smooth scrolling for all elements */
+  scroll-behavior: smooth;
+  /* Add padding to account for fixed header */
+  scroll-padding-top: var(--scroll-padding);
+  /* Prevent scrollbar from shifting layout */
+  scrollbar-gutter: stable;
+}
+
+/* Apply focus outline for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Optimize transition performance */
+* {
+  /* Use transforms instead of top/left for animations */
+  will-change: auto;
+}
+
+/* Add styles for loading states */
+.loading-skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-skeleton);
+  border-radius: 4px;
+}
+
+.loading-skeleton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Optimize for reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
