@@ -139,7 +139,12 @@ export default function ServicesPage() {
             animate="show"
           >
             {servicesData
-              .filter(service => service.previewImage.startsWith('/images/'))
+              .filter(service => 
+                service.previewImage && 
+                service.previewImage.startsWith('/images/') && 
+                service.exampleUrl && 
+                service.exampleUrl.includes('netlify.app')
+              )
               .map((service) => (
               <motion.div key={service.slug} variants={item}>
                 <a

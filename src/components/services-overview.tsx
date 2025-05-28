@@ -176,94 +176,24 @@ export default function ServicesOverview() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <ServiceCard
-              icon={<Globe size={24} />}
-              title="Business Websites"
-              description="Professional websites designed for businesses of all sizes that want to establish a strong online presence."
-              href="/services"
-              index={0}
-            />
-
-            <ServiceCard
-              icon={<MousePointerClick size={24} />}
-              title="E-commerce Solutions"
-              description="Custom online stores that help you sell products and services with secure payment processing and inventory management."
-              href="https://onlinestoreexemple.netlify.app/"
-              index={1}
-              external={true}
-            />
-
-            <ServiceCard
-              icon={<PenTool size={24} />}
-              title="Portfolio Websites"
-              description="Showcase your work with a beautifully designed portfolio website that highlights your skills and accomplishments."
-              href="/services"
-              index={2}
-            />
-
-            <ServiceCard
-              icon={<BarChart4 size={24} />}
-              title="Landing Pages"
-              description="High-converting landing pages designed to promote specific products, services, or campaigns and drive action."
-              href="https://landingpagep-prowebexamplar.netlify.app/"
-              index={3}
-              external={true}
-            />
-
-            <ServiceCard
-              icon={<Search size={24} />}
-              title="Blog & Content Sites"
-              description="Content-focused websites that help you share information, build authority, and engage with your audience."
-              href="/services"
-              index={4}
-            />
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
-              <Card className="card-glow h-full bg-gradient-to-br from-primary/20 to-transparent hover:shadow-lg">
-                <CardContent className="p-6 h-full flex flex-col justify-center items-center text-center">
-                  <motion.h3
-                    className="text-xl font-semibold mb-2"
-                    animate={{ scale: [1, 1.03, 1] }}
-                    transition={{
-                      repeat: Number.POSITIVE_INFINITY,
-                      duration: 3,
-                      ease: "easeInOut"
-                    }}
-                  >
-                    Custom Web Solutions
-                  </motion.h3>
-                  <p className="text-muted-foreground mb-4">
-                    Need a unique website for your specific needs? We create custom web solutions tailored to your business.
-                  </p>
-                  <motion.div
-                    whileHover={{ x: 5 }}
-                    transition={{ type: "spring", stiffness: 400 }}
-                  >
-                    <Link
-                      href="/contact"
-                      className="text-primary hover:underline font-medium flex items-center"
-                    >
-                      Let's discuss your project
-                      <motion.span
-                        animate={{ x: [0, 5, 0] }}
-                        transition={{
-                          repeat: Number.POSITIVE_INFINITY,
-                          duration: 1.5,
-                          ease: "easeInOut"
-                        }}
-                        className="ml-1"
-                      >
-                        →
-                      </motion.span>
-                    </Link>
-                  </motion.div>
-                </CardContent>
-              </Card>
-            </motion.div>
+            {servicesData
+              .filter(service => 
+                service.previewImage && 
+                service.previewImage.startsWith('/images/') && 
+                service.exampleUrl && 
+                service.exampleUrl.includes('netlify.app')
+              )
+              .map((service, index) => (
+                <ServiceCard
+                  key={service.slug}
+                  icon={service.icon}
+                  title={service.title}
+                  description={service.description}
+                  href={service.exampleUrl || "/services"}
+                  index={index}
+                  external={!!service.exampleUrl}
+                />
+              ))}
           </div>
         </div>
       </section>
@@ -291,7 +221,12 @@ export default function ServicesOverview() {
                 animate={examplesInView ? "show" : "hidden"}
               >
                 {servicesData
-                  .filter(service => service.previewImage.startsWith('/images/'))
+                  .filter(service => 
+                    service.previewImage && 
+                    service.previewImage.startsWith('/images/') && 
+                    service.exampleUrl && 
+                    service.exampleUrl.includes('netlify.app')
+                  )
                   .map((service) => (
                     <motion.div key={service.slug} variants={item} className="w-80 flex-shrink-0">
                       <a
